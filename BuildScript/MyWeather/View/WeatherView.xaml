@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="MyWeather.View.WeatherView" 
+		xmlns:controls="clr-namespace:MyWeather;assembly=MyWeather"
+		Title="Weather"
+	    AutomationId="WeatherPageId">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="60" />
+		</Grid.ColumnDefinitions>
+
+		<ActivityIndicator 
+			Grid.ColumnSpan="2"
+			IsRunning="{Binding IsBusy}" 
+			IsVisible="{Binding IsBusy}" 
+			HorizontalOptions="Center" 
+			VerticalOptions="Center"
+			AutomationId="LoadingIndicator"/>
+		
+		<StackLayout 
+			Grid.Column="0"
+			Grid.Row="0"
+			Padding="10" 
+			Spacing="10">
+			<Entry Text="{Binding Location}" AutomationId="LocationEntry" >
+				<Entry.Effects>
+					<controls:FocusEffect/>
+				</Entry.Effects>
+			</Entry>
+			<Label Text="{Binding Temp}" FontSize="36" AutomationId="TempLabel" >
+			<Label.Behaviors>
+					<controls:PulseTextBehaviour/>
+			</Label.Behaviors>
+			</Label>
+			<Label Text="{Binding Condition}" AutomationId="ConditionLabel"/>
+		
+			<Button Text="Get Weather" Command="{Binding GetWeatherCommand}" TextColor="White" BackgroundColor="#58F" AutomationId="GetWeatherButton" />
+			<StackLayout VerticalOptions="End" Orientation="Horizontal">
+				<Label Text="Use Imperial?" VerticalTextAlignment="Center" TextColor="Black" x:Name="logo"/>
+				<Switch IsToggled="{Binding IsImperial}" AutomationId="UnitsSwitch" controls:SwitchColorEffect.Color ="#58F">
+					<Switch.Effects>
+						<controls:SwitchColorEffect/>
+					</Switch.Effects>
+				</Switch>
+			</StackLayout>
+			<StackLayout VerticalOptions="End" Orientation="Horizontal">
+				<Label Text="Use GPS?" VerticalTextAlignment="Center" TextColor="Black"/>
+				<Switch IsToggled="{Binding UseGPS}" AutomationId="GPSSwitch" controls:SwitchColorEffect.Color ="#58F">
+					<Switch.Effects>
+						<controls:SwitchColorEffect/>
+					</Switch.Effects>
+				</Switch>
+			</StackLayout>
+
+		</StackLayout>
+
+		<controls:ThermometerView 
+		TemperatureTo="{Binding PercentageTemperature}"
+		Grid.Row ="0"
+		Grid.Column="1" Margin="10"
+	    AutomationId="ThermometerView">
+			<controls:ThermometerView.Behaviors>
+					<controls:ThermometerAnimateBehaviour/>
+			</controls:ThermometerView.Behaviors>
+		</controls:ThermometerView>
+	
+	</Grid>
+</ContentPage>
